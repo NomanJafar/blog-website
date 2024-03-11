@@ -160,8 +160,140 @@ userRouter.post('/register', usersValidation.createUserValidation, userControlle
  *               auth: true
  */
 userRouter.get('/', [authentication, authorization(Roles.ADMIN)], userController.getAll);
-userRouter.get('/:id', authentication, usersValidation.UserIdValidation, userController.getById);
+
+/**
+ * @swagger
+ * tags:
+ *   - name: Users
+ *     description: User operations
+ *
+ * /user:
+ *   patch:
+ *     summary: Update user details
+ *     description: Update user details based on the provided username and user ID.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: New username for the user.
+ *               password:
+ *                 type: string
+ *                 description: New password for the user.
+ *           example:
+ *             username: new_username
+ *             password: new_password
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful response with updated user details.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Success
+ *               data:
+ *                 id: 1
+ *                 username: new_username
+ *                 email: example@example.com
+ *                 role: USER
+ *                 created: 2022-01-01T00:00:00.000Z
+ *                 updated: 2022-01-02T00:00:00.000Z
+ *               statusCode: 200
+ *               auth: true
+ *       400:
+ *         description: Bad request. Invalid parameters.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Error
+ *               statusCode: 400
+ *               auth: true
+ *       401:
+ *         description: Unauthorized. Authentication token is missing or invalid.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Error
+ *               statusCode: 401
+ *               auth: false
+ *       403:
+ *         description: Forbidden. The authenticated user does not have permission.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Error
+ *               statusCode: 403
+ *               auth: true
+ */
 userRouter.patch('/', authentication, usersValidation.updateUserValidation, userController.update);
+
+/**
+ * @swagger
+ * tags:
+ *   - name: Users
+ *     description: User operations
+ *
+ * /user/{id}:
+ *   delete:
+ *     summary: Delete a user by ID
+ *     description: Delete a user based on the provided user ID. Requires authentication and administrator authorization.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: User ID to delete.
+ *     security:
+ *       - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successful response indicating the user has been deleted.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Success
+ *               statusCode: 200
+ *               auth: true
+ *       400:
+ *         description: Bad request. Invalid user ID.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Error
+ *               statusCode: 400
+ *               auth: true
+ *       401:
+ *         description: Unauthorized. Authentication token is missing or invalid.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Error
+ *               statusCode: 401
+ *               auth: false
+ *       403:
+ *         description: Forbidden. The authenticated user does not have permission.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Error
+ *               statusCode: 403
+ *               auth: true
+ *       404:
+ *         description: Not Found. User with the specified ID is not found.
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: Error
+ *               statusCode: 404
+ *               auth: true
+ */
 userRouter.delete('/:id', [authentication, authorization(Roles.ADMIN)], usersValidation.UserIdValidation, userController.delete);
+
 
 module.exports = userRouter;

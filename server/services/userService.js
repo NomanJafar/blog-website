@@ -96,7 +96,17 @@ const userService = {
      */
     getUserById: async (id) => {
         try {
-            const user = await dbContext.users.findFirst({ where: { id } });
+            const user = await dbContext.users.findFirst({
+                where: { id },
+                select: {
+                    username: true,
+                    email: true,
+                    created: true,
+                    updated: true,
+                    role: true
+
+                }
+            });
             if (!user) {
                 throw new CustomError(`user with id ${id} does not exists`, 404, false);
             }
@@ -158,7 +168,23 @@ const userService = {
      */
     updateUser: async (id, username, password) => {
         try {
-            const user = await dbContext.users.update({ where: { id }, data: { username, password } });
+            const user = await dbContext.users.update({
+                where: {
+                    id
+                },
+                data: {
+                    username,
+                    password
+                },
+                select: {
+                    id: true,
+                    username: true,
+                    email: true,
+                    role: true,
+                    created: true,
+                    updated: true,
+                },
+            });
             if (!user) {
                 throw new CustomError(`no users found`, 404, false);
             }

@@ -15,14 +15,14 @@ model Users {
   role     Roles    @default(USER)
   created  DateTime @default(now())
   updated  DateTime @updatedAt
-  posts    Posts[]
+  posts    Posts[]  @relation("userPosts")
 }
 
 model Posts {
   id       Int      @id @default(autoincrement())
   title    String   @db.VarChar(70)
   content  String   @db.VarChar(5000)
-  author   Users    @relation(fields: [authorId], references: [id])
+  author   Users    @relation("userPosts", fields: [authorId], references: [id], onDelete: Cascade)
   authorId Int
   created  DateTime @default(now())
   updated  DateTime @updatedAt

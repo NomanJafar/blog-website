@@ -41,7 +41,7 @@ const postController = {
         try {
             const { id } = req.params;
             const user = req.user;
-            const post = await postService.deletePost(id, user);
+            const post = await postService.deletePost(parseInt(id), user);
             res.apiSuccess(post);
         } catch (error) {
             next(error);

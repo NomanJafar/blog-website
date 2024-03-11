@@ -1,4 +1,5 @@
 const authService = require("../services/authService");
+const extractToken = require("../utils/extractToken");
 
 /**
  * Middleware for authenticating requests using JSON Web Tokens (JWT).
@@ -12,7 +13,7 @@ const authService = require("../services/authService");
  * @throws {ApiError} 401 Unauthorized - If the provided JWT is invalid or has expired.
  */
 const authentication = (req, res, next) => {
-    const token = req.header('Authorization');
+    const token = extractToken(req.header('Authorization'));
     if (!token) {
         return res.apiError(401, false, 'Unauthorized');
     }

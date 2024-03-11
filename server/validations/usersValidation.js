@@ -21,10 +21,8 @@ const usersValidation = {
     },
 
     updateUserValidation: (req, res, next) => {
-        const { error: e1 } = userIdDto.validate(req.params, { abortEarly: false });
         const { error: e2 } = updateUserDto.validate(req.body, { abortEarly: false });
-        if (e1 || e2) {
-            const paramErrors = e1?.details.map((detail) => detail.message);
+        if (e2) {
             const bodyErrors = e2?.details.map((detail) => detail.message);
             return res.apiError(400, true, paramErrors.concat(bodyErrors));
         }

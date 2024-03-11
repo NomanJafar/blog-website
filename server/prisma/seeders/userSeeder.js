@@ -1,14 +1,15 @@
 const { Roles } = require("@prisma/client");
+const bcrypt = require('bcrypt');
 const generateRandomHTMLContent = require("../../utils/generateRandomHTMLContent");
 
 
 const userSeeder = async (prisma) => {
     const user = await prisma.users.upsert({
-        where: { email: 'noman@abc.com' },
+        where: { email: 'noman@abcd.com' },
         update: {},
         create: {
-            username: 'Noman Jafar',
-            email: 'noman@abc.com',
+            username: 'Noman Jafard',
+            email: 'noman@abcd.com',
             password: await bcrypt.hash('123456', 10),
             role: Roles.ADMIN,
             posts: {
@@ -19,7 +20,7 @@ const userSeeder = async (prisma) => {
             },
         },
     });
-    console.log('SuperAdmin created successfully', user);
+    console.log('Admin created successfully', user);
 
     for (let i = 0; i < 50; i++) {
         const user = await prisma.users.upsert({
