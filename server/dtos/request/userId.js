@@ -1,0 +1,8 @@
+const Joi = require('joi');
+const userIdDto = Joi.object({
+    id: Joi.number().label('id'),
+});
+
+module.exports = {
+    userIdDto,
+};
