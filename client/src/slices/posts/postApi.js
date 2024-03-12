@@ -44,9 +44,9 @@ export const fetchMyPosts = createAsyncThunk('posts/fetchMyPosts', async ({ }, {
     }
 });
 
-export const updatePost = createAsyncThunk('posts/fetchMyPosts', async ({ }, { rejectWithValue }) => {
+export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, title, content }, { rejectWithValue }) => {
     try {
-        const response = await api.patch(`/post`);
+        const response = await api.patch(`/post/${id}`, { title, content });
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data);

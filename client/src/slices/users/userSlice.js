@@ -21,6 +21,7 @@ const userSlice = createSlice({
             state.error = null;
         },
     },
+    //login
     extraReducers: (builder) => {
         builder
             .addCase(loginUser.pending, (state) => {
@@ -41,6 +42,7 @@ const userSlice = createSlice({
                 state.message = action.payload ? action.payload?.message?.toString() : 'Registration failed';
                 toast.error(state.message);
             })
+            //register
             .addCase(registerUser.pending, (state) => {
                 state.loading = true;
             })
@@ -58,7 +60,7 @@ const userSlice = createSlice({
                 state.error = true;
                 state.message = action.payload ? action.payload?.message?.toString() : 'Registration failed';
                 toast.error(state.message);
-            });
+            })
     },
 });
 

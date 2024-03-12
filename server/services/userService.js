@@ -42,7 +42,7 @@ const userService = {
             },
                 '10h');
             return {
-                token,
+                token: `bearer ${token}`,
                 user: {
                     username: createdUser.username,
                     email: createdUser.email,
@@ -75,7 +75,7 @@ const userService = {
             }
             const token = authService.signAccessToken({ email: user.email, role: user.role, username: user.username, id: user.id }, '10h');
             return {
-                token, user: {
+                token: `bearer ${token}`, user: {
                     username: user.username,
                     email: user.email,
                     role: user.role

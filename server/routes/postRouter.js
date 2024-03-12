@@ -11,7 +11,7 @@ const postRouter = express.Router();
  *   - name: Posts
  *     description: Posts operations
  * 
- * /post/:
+ * /post:
  *   get:
  *     summary: Get all posts
  *     description: Retrieves a list of all posts.
@@ -176,7 +176,7 @@ postRouter.post('/', authentication, postsValidation.createPostValidation, postC
  *               statusCode: 400
  *               auth: true
  */
-postRouter.get('/userposts', usersValidation.UserIdValidation, authentication, postController.getByAuthorId);
+postRouter.get('/userposts', authentication, postController.getByAuthorId);
 
 
 
@@ -188,8 +188,8 @@ postRouter.get('/userposts', usersValidation.UserIdValidation, authentication, p
  * 
  * /post/{id}:
  *   get:
- *     summary: get posts of a a user by ID
- *     description: get posts of a a user by ID. Requires authentication.
+ *     summary: get post by post id
+ *     description: get post by post id.
  *     parameters:
  *       - in: path
  *         name: id

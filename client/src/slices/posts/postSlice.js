@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createPost, fetchMyPosts, fetchPostbyId, fetchPosts } from './postApi';
+import { createPost, fetchMyPosts, fetchPostbyId, fetchPosts, updatePost } from './postApi';
 import { toast } from 'react-toastify';
 
 
@@ -97,8 +97,27 @@ const postsSlice = createSlice({
                 state.posts = null;
                 toast.error(state.message);
             });
-    },
 
+        // update post
+        builder
+            .addCase(updatePost.pending, (state) => {
+                state.loading = true;
+                state.currentPost = null;
+            })
+            .addCase(updatePost.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentPost = action.payload.data;
+                state.message = action.payload?.message;
+                toast.success(state.message);
+            })
+            .addCase(updatePost.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload?.message;
+                state.message = action.payload?.message;
+                state.currentPost = null;
+                toast.error(state.message);
+            });
+    },
 });
 
 export const getCurrentPost = (state) => state.post.currentPost;

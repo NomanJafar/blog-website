@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createPost, fetchPostbyId } from '../slices/posts/postApi';
+import { createPost, fetchPostbyId, updatePost } from '../slices/posts/postApi';
 import Toast from '../components/Toast';
 import { useParams } from 'react-router-dom';
 import { getCurrentPost } from '../slices/posts/postSlice';
@@ -35,16 +35,15 @@ const PostEditor = () => {
     }, [post?.content]);
 
     const handleClick = () => {
-        if (postId) {
-
-        }
-        else {
-            if (editorRef.current) {
-                const content = editorRef.current.getContent();
+        if (editorRef.current) {
+            const content = editorRef.current.getContent();
+            if (!postId) {
                 dispatch(createPost({ title, content }));
             }
+            else {
+                dispatch(updatePost({ id: postId, title, content }));
+            }
         }
-
     };
 
     return (

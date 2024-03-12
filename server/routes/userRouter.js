@@ -294,6 +294,7 @@ userRouter.patch('/', authentication, usersValidation.updateUserValidation, user
  *               auth: true
  */
 userRouter.delete('/:id', [authentication, authorization(Roles.ADMIN)], usersValidation.UserIdValidation, userController.delete);
+userRouter.get('/:id', usersValidation.UserIdValidation, userController.getById);
 
 
 module.exports = userRouter;
